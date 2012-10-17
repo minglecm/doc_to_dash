@@ -4,6 +4,11 @@ module DocToDash
       @doc_directory = doc_directory
     end
 
+    #TODO: fix the CSS file and remove the top header.  JS will not work on Dash.
+    #def fix_css_file
+    #  File.open(@doc_directory + '/rdoc.css', 'a') { |file| file.write('nav, footer { display: none !important; } #documentation { margin: 0 !important; } .method-source-code { display: block !important; }') }
+    #end
+
     def parse_classes
       classes_file = File.read(@doc_directory + '/class_list.html')
       classes_html = Nokogiri::HTML(classes_file)
