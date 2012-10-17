@@ -19,4 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "nokogiri"
   gem.add_dependency "sqlite3"
+
+  gem.executables   << 'doc_to_dash'
 end
