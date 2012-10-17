@@ -4,7 +4,7 @@ module DocToDash
       @doc_directory = doc_directory
     end
 
-    def parse_methods
+    def parse_classes
       classes_file = File.read(@doc_directory + '/class_list.html')
       classes_html = Nokogiri::HTML(classes_file)
       classes      = []
@@ -20,7 +20,7 @@ module DocToDash
       classes
     end
 
-    def parse_classes
+    def parse_methods
       methods_file = File.read(@doc_directory + '/method_list.html')
       methods_html = Nokogiri::HTML(methods_file)
       methods      = []
