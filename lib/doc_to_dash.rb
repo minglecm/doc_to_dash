@@ -45,12 +45,16 @@ module DocToDash
       @classes = parser.parse_classes
       @methods = parser.parse_methods
 
-      load_methods_into_database
-      load_classes_into_database
+      if @methods && @classes
+        load_methods_into_database
+        load_classes_into_database
 
-      log "Docset created."
-
-      @docset_path
+        log "Docset created."
+        @docset_path
+      else
+        log "Docset could not be created. Parser returned no data."
+        return false
+      end
     end
 
     private
