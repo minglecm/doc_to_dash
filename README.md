@@ -92,6 +92,10 @@ Tell doc_to_dash to generate a docset:
 
 This will create a docset in the docset_output_path then you just need to load the docset into Dash.
 
+### Command Line
+
+    doc_to_dash [docset_name] [input_docs_path] [output_docset]
+
 ## Contributing
 
 1. Fork it
