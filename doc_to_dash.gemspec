@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["me@caleb.io"]
   gem.description   = "Converts documentation to a Dash Docset"
   gem.summary       = "Documentation to Dash Docset Converter"
-  gem.homepage      = ""
+  gem.homepage      = "https://rubygems.org/gems/doc_to_dash"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
