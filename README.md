@@ -1,6 +1,6 @@
 # DocToDash
 
-DocToDash converts documentation files (at the moment only YARD) into a classes and methods docset that can then be loaded into the docset viewing program: Dash.
+DocToDash converts documentation files (Rdoc Darkfish / YARD) into a classes and methods docset that can then be loaded into the docset viewing program: Dash.
 
 ## Installation
 
@@ -71,14 +71,14 @@ Or install it yourself as:
     <tr>
         <td>:parser</td>
         <td>DocToDash::YardParser</td>
-        <td>Parser to use to pull out classes and modules.  YARD is only supported at the moment.</td>
+        <td>Parser to use to pull out classes and modules.  DocToDash::YardParser / DocToDash::RdocDarkfishParser.</td>
         <td>Yes</td>
     </tr>
 </table>
 
 ## Usage
 
-Generate YARD documentation (or as time progresses and we support rdoc, generate that). This will output your Rails application's YARD documentation to doc/yard:
+Generate YARD documentation (or darkfish rdoc). This below will output your Rails application's YARD documentation to doc/yard:
 
     $ yardoc app/**/*.rb lib/**/*.rb --protected --private --embed-mixins --output-dir doc/yard/
 
