@@ -1,7 +1,7 @@
 # DocToDash
 
-TODO: Write a gem description
-
+DocToDash converts documentation files (at the moment only YARD) into a classes and methods docset that can then be loaded into the docset viewing program: Dash.
+    
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -16,9 +16,83 @@ Or install it yourself as:
 
     $ gem install doc_to_dash
 
+## Options
+
+<table>
+    <tr>
+        <th>Key</th>
+        <th>Default</th>
+        <th>Description</th>
+        <th>Required</th>
+    </tr>
+
+    <tr>
+        <td>:docset_name</td>
+        <td>DefaultDocset</td>
+        <td>What the file will be called.  EX: DefaultDocset.docset</td>
+        <td>Yes</td>
+    </tr>
+
+    <tr>
+        <td>:docset_output_path</td>
+        <td>doc/</td>
+        <td>Where the file above will be stored EX: doc/DefaultDocset.docset</td>
+        <td>Yes</td>
+    </tr>
+
+    <tr>
+        <td>:icon_path</td>
+        <td>nil/</td>
+        <td>The icon file that will be put in the docset.  Shown in Dash.</td>
+        <td>No</td>
+    </tr>
+
+    <tr>
+        <td>:doc_input_path</td>
+        <td>nil/</td>
+        <td>The directory that the doc files will be coming from.  EX: /Users/Caleb/web/my_site/doc/yard</td>
+        <td>Yes</td>
+    </tr>
+
+    <tr>
+        <td>:doc_save_folder</td>
+        <td>docs/</td>
+        <td>Where inside the docset the docs will be copied to (not really important, just here if you need to change it)</td>
+        <td>Yes</td>
+    </tr>
+
+    <tr>
+        <td>:verbose</td>
+        <td>true</td>
+        <td>Spits out messages with "puts" showing what is going on.</td>
+        <td>Yes</td>
+    </tr>
+
+    <tr>
+        <td>:parser</td>
+        <td>DocToDash::YardParser</td>
+        <td>Parser to use to pull out classes and modules.  YARD is only supported at the moment.</td>
+        <td>Yes</td>
+    </tr>
+</table>
+
 ## Usage
 
-TODO: Write usage instructions here
+1. Generate YARD documentation (or as time progresses and we support rdoc, generate that). This will output your Rails application's YARD documentation to doc/yard.:
+
+    $ yardoc app/**/*.rb lib/**/*.rb --protected --private --embed-mixins --output-dir doc/yard/
+
+2. Require doc_to_dash
+
+    require 'doc_to_dash'
+
+3. Tell doc_to_dash to generate
+
+    DocToDash::DocsetGenerator.new(:docset_name => 'MyApplication', :doc_input_path => '/web/myapp/doc/yard', :icon_path => '~/icon.png', :docset_output_path => '/users/test/docsets') # Icon is optional.
+
+4. This will create a docset in the docset_output_path.
+
+5. Load into Dash.
 
 ## Contributing
 
