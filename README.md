@@ -88,7 +88,7 @@ Require doc_to_dash
 
 Tell doc_to_dash to generate a docset:
 
-    DocToDash::DocsetGenerator.new(:docset_name => 'MyApplication', :doc_input_path => '/web/myapp/doc/yard', :icon_path => '~/icon.png', :docset_output_path => '/users/test/docsets') # Icon is optional.
+    DocToDash::DocsetGenerator.new(:docset_name => 'MyApplication', :doc_input_path => '/web/myapp/doc/yard', :icon_path => '~/icon.png', :docset_output_path => '/users/test/docsets').run
 
 This will create a docset in the docset_output_path then you just need to load the docset into Dash.
 
