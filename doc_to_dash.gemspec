@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'yard_to_dash/version'
+require 'doc_to_dash/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "yard_to_dash"
-  gem.version       = YardToDash::VERSION
+  gem.name          = "doc_to_dash"
+  gem.version       = DocToDash::VERSION
   gem.authors       = ["Caleb Mingle"]
   gem.email         = ["me@caleb.io"]
-  gem.description   = "Converts YARD documentation to a Dash Docset"
-  gem.summary       = "Yard to Dash Docset Converter"
+  gem.description   = "Converts documentation to a Dash Docset"
+  gem.summary       = "Documentation to Dash Docset Converter"
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)

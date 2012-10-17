@@ -1,9 +1,10 @@
-require "yard_to_dash/version"
+require "doc_to_dash/version"
+require "doc_to_dash/yard_parser"
 require 'sqlite3'
 require 'fileutils'
 require 'nokogiri'
 
-module YardToDash
+module DocToDash
   class DocsetGenerator
     def initialize(options = {})
       @classes      = []
@@ -15,11 +16,13 @@ module YardToDash
           :docset_output_filename => lambda {@options[:docset_name] + '.docset' },
           :icon_path              => nil,                                                         # This is the docset icon that never changes, if you want a default icon just set this to nil.
           :doc_input_path         => nil,                                                         # This is the actual docs to copy over to the Docset.
-          :doc_save_folder        => 'yard',                                                      # This is the directory name it will store under /Contents/Resources/Documents/{this}
-          :verbose                => true
+          :doc_save_folder        => 'docs',                                                      # This is the directory name it will store under /Contents/Resources/Documents/{this}
+          :verbose                => true,
+          :parser                 => DocToDash::YardParser
       }.merge(options)
 
-      @docset_path  = File.expand_path(@options[:docset_output_path]) + '/' + @options[:docset_output_filename].call
+      @docset_path    = File.expand_path(@options[:docset_output_path]) + '/' + @options[:docset_output_filename].call
+      @doc_directory  = @docset_path + '/Contents/Resources/Documents/' + @options[:doc_save_folder]
     end
 
     def run
@@ -33,12 +36,14 @@ module YardToDash
       clean_up_files
       create_structure
       copy_default_files
-      copy_yard_docs_to_docset
+      copy_docs_to_docset
 
       create_database
 
-      parse_methods
-      parse_classes
+      parser = @options[:parser].new(@doc_directory)
+
+      @classes = parser.parse_classes
+      @methods = parser.parse_methods
 
       load_methods_into_database
       load_classes_into_database
@@ -56,7 +61,7 @@ module YardToDash
 
     def check_and_format_options
       if @options[:doc_input_path].nil?
-        @error = "You must provide a path to your YARD docs. (:doc_input_path)"
+        @error = "You must provide a path to your docs. (:doc_input_path)"
         return false
       end
 
@@ -89,12 +94,12 @@ module YardToDash
       File.open(@docset_path + '/Contents/Info.plist', 'w+') { |file| file.write(default_plist.gsub('{DOCSET_NAME}', @options[:docset_name])) }
     end
 
-    def copy_yard_docs_to_docset
-      log "Copying YARD documentation to Docset."
+    def copy_docs_to_docset
+      log "Copying documentation to Docset."
 
-      FileUtils.cp_r @options[:doc_input_path], @docset_path + '/Contents/Resources/Documents/'
-
-      @doc_directory = @docset_path + '/Contents/Resources/Documents/' + @options[:doc_save_folder]
+      new_doc_path  = @docset_path + '/Contents/Resources/Documents/'
+      FileUtils.cp_r @options[:doc_input_path], new_doc_path
+      FileUtils.mv new_doc_path + File.basename(@options[:doc_input_path]), new_doc_path + @options[:doc_save_folder]
     end
 
     def create_database
@@ -102,36 +107,6 @@ module YardToDash
 
       @db = SQLite3::Database.new(@docset_path + '/Contents/Resources/docSet.dsidx')
       @db.execute('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)')
-    end
-
-    def parse_methods
-      log "Parsing methods."
-
-      classes_file = File.read(@doc_directory + '/class_list.html')
-      classes_html = Nokogiri::HTML(classes_file)
-
-      classes_html.xpath('//li').children.select{|c| c.name == "span"}.each do |method|
-        a     = method.children.first
-        title = a.children.first.to_s.gsub('#', '')
-        href  = a["href"].to_s
-
-        @classes << [href, title] unless title == "Top Level Namespace"
-      end
-    end
-
-    def parse_classes
-      log "Parsing classes."
-
-      methods_file = File.read(@doc_directory + '/method_list.html')
-      methods_html = Nokogiri::HTML(methods_file)
-
-      methods_html.xpath('//li').children.select{|c| c.name == "span"}.each do |method|
-        a     = method.children.first
-        href  = a["href"].to_s
-        name  = a["title"].to_s.gsub(/\((.+)\)/, '').strip! # Strip the (ClassName) and whitespace.
-
-        @methods << [href, name]
-      end
     end
 
     def load_methods_into_database
