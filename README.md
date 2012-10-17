@@ -1,7 +1,7 @@
 # DocToDash
 
 DocToDash converts documentation files (at the moment only YARD) into a classes and methods docset that can then be loaded into the docset viewing program: Dash.
-    
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -78,21 +78,19 @@ Or install it yourself as:
 
 ## Usage
 
-1. Generate YARD documentation (or as time progresses and we support rdoc, generate that). This will output your Rails application's YARD documentation to doc/yard.:
+Generate YARD documentation (or as time progresses and we support rdoc, generate that). This will output your Rails application's YARD documentation to doc/yard:
 
     $ yardoc app/**/*.rb lib/**/*.rb --protected --private --embed-mixins --output-dir doc/yard/
 
-2. Require doc_to_dash
+Require doc_to_dash
 
     require 'doc_to_dash'
 
-3. Tell doc_to_dash to generate
+Tell doc_to_dash to generate a docset:
 
     DocToDash::DocsetGenerator.new(:docset_name => 'MyApplication', :doc_input_path => '/web/myapp/doc/yard', :icon_path => '~/icon.png', :docset_output_path => '/users/test/docsets') # Icon is optional.
 
-4. This will create a docset in the docset_output_path.
-
-5. Load into Dash.
+This will create a docset in the docset_output_path then you just need to load the docset into Dash.
 
 ## Contributing
 
