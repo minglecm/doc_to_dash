@@ -2,12 +2,13 @@ module DocToDash
   class YardParser
     def initialize(doc_directory)
       @doc_directory = doc_directory
+
+      fix_css_file
     end
 
-    #TODO: fix the CSS file and remove the top header.  JS will not work on Dash.
-    #def fix_css_file
-    #  File.open(@doc_directory + '/rdoc.css', 'a') { |file| file.write('nav, footer { display: none !important; } #documentation { margin: 0 !important; } .method-source-code { display: block !important; }') }
-    #end
+    def fix_css_file
+      File.open(@doc_directory + '/css/style.css', 'a') { |file| file.write('#header, .showSource, .inheritanceTree, .inheritName, h2 small { display: none; } .source_code, .fullTree { display: block !important; }') }
+    end
 
     def parse_classes
       classes_file = File.read(@doc_directory + '/class_list.html')
