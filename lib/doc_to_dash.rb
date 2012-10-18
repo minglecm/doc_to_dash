@@ -96,7 +96,8 @@ module DocToDash
 
       unless @options[:icon_path].nil?
         FileUtils.cp @options[:icon_path], @docset_path + '/'
-        FileUtils.mv @docset_path + '/' + File.basename(@options[:icon_path]), @docset_path + '/icon.png'
+        filename = File.basename(@options[:icon_path])
+        FileUtils.mv @docset_path + '/' + filename, @docset_path + '/icon.png' if filename != 'icon.png'
       end
 
       File.open(@docset_path + '/Contents/Info.plist', 'w+') { |file| file.write(default_plist.gsub('{DOCSET_NAME}', @options[:docset_name])) }
