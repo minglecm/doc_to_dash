@@ -24,6 +24,16 @@ Generate YARD documentation (or darkfish rdoc). This below will output your Rail
 
 ### Code
 
+Require doc_to_dash
+
+    require 'doc_to_dash'
+
+Tell doc_to_dash to generate a docset:
+
+    DocToDash::DocsetGenerator.new(:doc_input_path => '/web/myapp/doc/yard').run
+
+This will create a docset in doc/DefaultDocset.docset then you just need to load the docset into Dash.  The options above can be passed.
+
 #### Options
 
 <table>
@@ -84,19 +94,9 @@ Generate YARD documentation (or darkfish rdoc). This below will output your Rail
     </tr>
 </table>
 
-#### Usage
-
-Require doc_to_dash
-
-    require 'doc_to_dash'
-
-Tell doc_to_dash to generate a docset:
-
-    DocToDash::DocsetGenerator.new(:doc_input_path => '/web/myapp/doc/yard').run
-
-This will create a docset in doc/DefaultDocset.docset then you just need to load the docset into Dash.  The options above can be passed.
-
 ### Command Line
+
+    doc_to_dash [docset_name] [input_docs_path] [output_docset]
 
 #### Options
 
@@ -137,10 +137,6 @@ This will create a docset in doc/DefaultDocset.docset then you just need to load
         <td>Show help message</td>
     </tr>
 </table>
-
-#### Usage
-
-    doc_to_dash [docset_name] [input_docs_path] [output_docset]
 
 ## Contributing
 
