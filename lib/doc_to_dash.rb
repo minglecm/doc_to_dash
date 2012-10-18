@@ -14,7 +14,7 @@ module DocToDash
           :docset_name            => 'DefaultDocset',
           :docset_output_path     => 'doc/',      # This is where the actual package will be created.
           :docset_output_filename => lambda {@options[:docset_name] + '.docset' },
-          :icon_path              => nil,                                                         # This is the docset icon that never changes, if you want a default icon just set this to nil.
+          :icon_path              => File.expand_path(File.expand_path(File.dirname(__FILE__)) + '/../default_icon.png'), # This is the docset icon that never changes, if you want a default icon just set this to nil.
           :doc_input_path         => nil,                                                         # This is the actual docs to copy over to the Docset.
           :doc_save_folder        => 'docs',                                                      # This is the directory name it will store under /Contents/Resources/Documents/{this}
           :verbose                => true,
@@ -94,7 +94,11 @@ module DocToDash
     def copy_default_files
       log "Copy default Docset files over."
 
-      FileUtils.cp @options[:icon_path], @docset_path + '/' unless @options[:icon_path].nil?
+      unless @options[:icon_path].nil?
+        FileUtils.cp @options[:icon_path], @docset_path + '/'
+        FileUtils.mv @docset_path + '/' + File.basename(@options[:icon_path]), @docset_path + '/icon.png'
+      end
+
       File.open(@docset_path + '/Contents/Info.plist', 'w+') { |file| file.write(default_plist.gsub('{DOCSET_NAME}', @options[:docset_name])) }
     end
 

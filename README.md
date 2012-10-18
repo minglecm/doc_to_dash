@@ -42,9 +42,9 @@ Or install it yourself as:
 
     <tr>
         <td>:icon_path</td>
-        <td>nil/</td>
+        <td>../default_icon.png</td>
         <td>The icon file that will be put in the docset.  Shown in Dash.</td>
-        <td>No</td>
+        <td>No (can be nil, will not transfer default_icon.png)</td>
     </tr>
 
     <tr>
@@ -103,3 +103,7 @@ This will create a docset in the docset_output_path then you just need to load t
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Thanks
+
+Default Icon: Crash Test Dummy designed by Luis Prado from The Noun Project
