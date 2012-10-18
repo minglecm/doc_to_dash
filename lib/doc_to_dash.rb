@@ -1,5 +1,6 @@
 require "doc_to_dash/version"
-require "doc_to_dash/yard_parser"
+require "doc_to_dash/cli"
+require "doc_to_dash/parsers/yard_parser" # Required because it defaults to this.
 require 'sqlite3'
 require 'fileutils'
 require 'nokogiri'
@@ -12,11 +13,11 @@ module DocToDash
 
       @options = {
           :docset_name            => 'DefaultDocset',
-          :docset_output_path     => 'doc/',      # This is where the actual package will be created.
+          :docset_output_path     => 'doc/',                                                                              # This is where the actual package will be created.
           :docset_output_filename => lambda {@options[:docset_name] + '.docset' },
           :icon_path              => File.expand_path(File.expand_path(File.dirname(__FILE__)) + '/../default_icon.png'), # This is the docset icon that never changes, if you want a default icon just set this to nil.
-          :doc_input_path         => nil,                                                         # This is the actual docs to copy over to the Docset.
-          :doc_save_folder        => 'docs',                                                      # This is the directory name it will store under /Contents/Resources/Documents/{this}
+          :doc_input_path         => nil,                                                                                 # This is the actual docs to copy over to the Docset.
+          :doc_save_folder        => 'docs',                                                                              # This is the directory name it will store under /Contents/Resources/Documents/{this}
           :verbose                => true,
           :parser                 => DocToDash::YardParser
       }.merge(options)
@@ -32,6 +33,7 @@ module DocToDash
         log "Error: " + @error # There was an error of some sort..
         return false
       end
+
 
       clean_up_files
       create_structure
@@ -55,6 +57,9 @@ module DocToDash
         log "Docset could not be created. Parser returned no data."
         return false
       end
+
+    rescue Errno::ENOENT
+      log "Oops! Seems you've given us a wrong file path."
     end
 
     private

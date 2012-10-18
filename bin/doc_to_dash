@@ -1,12 +1,4 @@
 #!/usr/bin/env ruby
 require 'doc_to_dash'
 
-# Need to do some cool command line switches here instead of this usage
-# Need to incorporate icon, etc in.
-
-if ARGV.count < 3
-  puts "Usage: doc_to_dash [docset_name] [input_docs_path] [output_docset]"
-  exit
-end
-
-DocToDash::DocsetGenerator.new(:docset_name => ARGV[0], :docset_output_path => ARGV[2], :doc_input_path => ARGV[1]).run
+DocToDash::CLI.run
