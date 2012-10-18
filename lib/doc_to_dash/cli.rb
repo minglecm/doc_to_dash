@@ -18,7 +18,8 @@ module DocToDash
 
     def run
       if ARGV.count == 0
-        puts "Error.  Please run doc_to_dash again with the --help switch.  Missing <docset_path>." and return false
+        puts "Error.  Please run doc_to_dash again with the --help switch.  Missing <docset_path>."
+        return false
       end
 
       docset_options = {}
