@@ -96,7 +96,7 @@ This will create a docset in doc/DefaultDocset.docset then you just need to load
 
 ### Command Line
 
-    doc_to_dash [docset_name] [input_docs_path] [output_docset]
+    doc_to_dash [options] <doc_directory_path>
 
 #### Options
 
