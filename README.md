@@ -16,7 +16,15 @@ Or install it yourself as:
 
     $ gem install doc_to_dash
 
-## Options
+## Usage
+
+Generate YARD documentation (or darkfish rdoc). This below will output your Rails application's YARD documentation to doc/yard:
+
+    $ yardoc app/**/*.rb lib/**/*.rb --protected --private --embed-mixins --output-dir doc/yard/
+
+### Code
+
+#### Options
 
 <table>
     <tr>
@@ -76,11 +84,7 @@ Or install it yourself as:
     </tr>
 </table>
 
-## Usage
-
-Generate YARD documentation (or darkfish rdoc). This below will output your Rails application's YARD documentation to doc/yard:
-
-    $ yardoc app/**/*.rb lib/**/*.rb --protected --private --embed-mixins --output-dir doc/yard/
+#### Usage
 
 Require doc_to_dash
 
@@ -88,11 +92,53 @@ Require doc_to_dash
 
 Tell doc_to_dash to generate a docset:
 
-    DocToDash::DocsetGenerator.new(:docset_name => 'MyApplication', :doc_input_path => '/web/myapp/doc/yard', :icon_path => '~/icon.png', :docset_output_path => '/users/test/docsets').run
+    DocToDash::DocsetGenerator.new(:doc_input_path => '/web/myapp/doc/yard').run
 
-This will create a docset in the docset_output_path then you just need to load the docset into Dash.
+This will create a docset in doc/DefaultDocset.docset then you just need to load the docset into Dash.  The options above can be passed.
 
 ### Command Line
+
+#### Options
+
+<table>
+    <tr>
+        <th>Option</th>
+        <th>Short</th>
+        <th>Description</th>
+    </tr>
+
+    <tr>
+        <td>--icon</td>
+        <td>-i</td>
+        <td>Docset icon which will display in Dash.</td>
+    </tr>
+
+    <tr>
+        <td>--name</td>
+        <td>-n</td>
+        <td>Docset name which will display in Dash.</td>
+    </tr>
+
+    <tr>
+        <td>--output</td>
+        <td>-o</td>
+        <td>Docset Output Path where the docset will be saved.</td>
+    </tr>
+
+    <tr>
+        <td>--parser</td>
+        <td>-p</td>
+        <td>Parser to use (YardParser / RdocDarkfishParser)</td>
+    </tr>
+
+    <tr>
+        <td>--help</td>
+        <td>-h</td>
+        <td>Show help message</td>
+    </tr>
+</table>
+
+#### Usage
 
     doc_to_dash [docset_name] [input_docs_path] [output_docset]
 

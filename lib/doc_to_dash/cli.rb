@@ -10,7 +10,7 @@ module DocToDash
       @opts = Trollop::options do
         banner DocToDash::CLI.banner_data
         opt :icon,    "Docset icon which will display in Dash.",            :type => :string
-        opt :name,    "Docset name which will dispaly in Dash.",            :type => :string
+        opt :name,    "Docset name which will display in Dash.",            :type => :string
         opt :output,  "Docset Output Path where the docset will be saved.", :type => :string
         opt :parser,  "Docset parser to use.",                              :type => :string
       end
