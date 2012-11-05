@@ -151,6 +151,8 @@ module DocToDash
           <string>{DOCSET_NAME}</string>
           <key>isDashDocset</key>
           <true/>
+          <key>dashIndexFilePath</key>
+          <string>#{@options[:doc_save_folder]}/index.html</string>
         </dict>
         </plist>
 XML
