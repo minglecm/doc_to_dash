@@ -19,6 +19,7 @@ module DocToDash
           :doc_input_path         => nil,                                                                                 # This is the actual docs to copy over to the Docset.
           :doc_save_folder        => 'docs',                                                                              # This is the directory name it will store under /Contents/Resources/Documents/{this}
           :verbose                => true,
+          :index_file             => nil,
           :parser                 => DocToDash::YardParser
       }.merge(options)
 
@@ -138,7 +139,10 @@ module DocToDash
     end
 
     def default_plist
-      return <<XML
+      index_filenames = [@options[:index_file], 'frames.html', 'index.html'].compact
+      index_file = index_filenames.select{|fn| File.exist?(File.join(@options[:doc_input_path], fn))}.first
+
+      return <<-XML
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
         <plist version="1.0">
@@ -151,11 +155,18 @@ module DocToDash
           <string>{DOCSET_NAME}</string>
           <key>isDashDocset</key>
           <true/>
-          <key>dashIndexFilePath</key>
-          <string>#{@options[:doc_save_folder]}/index.html</string>
+          #{index_key(index_file)}
         </dict>
         </plist>
-XML
+      XML
+    end
+
+    def index_key(index_file)
+      return '' if index_file.nil?
+      return <<-END_INDEX_KEY
+        <key>dashIndexFilePath</key>
+        <string>#{@options[:doc_save_folder]}/#{index_file.to_s}</string>
+      END_INDEX_KEY
     end
   end
 end
