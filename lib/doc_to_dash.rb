@@ -139,9 +139,8 @@ module DocToDash
     end
 
     def default_plist
-      index_basenames = [@options[:index_file], 'frames.html', 'index.html'].compact
-      index_filenames = index_basenames.map{|fn| File.join(@options[:doc_save_folder], fn)}
-      index_file = index_filenames.select{|fn| File.exist? fn}.first
+      index_filenames = [@options[:index_file], 'frames.html', 'index.html'].compact
+      index_file = index_filenames.select{|fn| File.exist?(File.join(@options[:doc_input_path], fn))}.first
 
       return <<-XML
         <?xml version="1.0" encoding="UTF-8"?>
@@ -166,7 +165,7 @@ module DocToDash
       return '' if index_file.nil?
       return <<-END_INDEX_KEY
         <key>dashIndexFilePath</key>
-        <string>#{index_file.to_s}</string>
+        <string>#{@options[:doc_save_folder]}/#{index_file.to_s}</string>
       END_INDEX_KEY
     end
   end
