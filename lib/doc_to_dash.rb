@@ -1,6 +1,7 @@
 require "doc_to_dash/version"
 require "doc_to_dash/cli"
 require "doc_to_dash/parsers/yard_parser" # Required because it defaults to this.
+require "doc_to_dash/parsers/rdoc_darkfish_parser"
 require 'sqlite3'
 require 'fileutils'
 require 'nokogiri'
