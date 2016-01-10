@@ -41,5 +41,14 @@ module DocToDash
 
       methods
     end
+
+    def parse_files
+      file_list = Dir.glob File.join(@doc_directory, 'file.*.html')
+      file_list.inject [] do |files, filename|
+        base_name = File.basename(filename)
+        section_name = base_name.gsub(/file.|.html/, '')
+        files << [ base_name, section_name ]
+      end
+    end
   end
 end

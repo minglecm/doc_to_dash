@@ -53,5 +53,10 @@ module DocToDash
       @methods
     end
     alias :parse_methods :methods
+
+    def files
+      raise 'Not implemented!'
+    end
+    alias :parse_files :files
   end
 end
