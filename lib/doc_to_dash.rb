@@ -11,6 +11,7 @@ module DocToDash
     def initialize(options = {})
       @classes      = []
       @methods      = []
+      @files        = []
 
       @options = {
           :docset_name            => 'DefaultDocset',
@@ -48,10 +49,12 @@ module DocToDash
 
       @classes = parser.parse_classes
       @methods = parser.parse_methods
+      @files = parser.parse_files rescue []
 
       if @methods && @classes
         load_methods_into_database
         load_classes_into_database
+        load_files_into_database
 
         log "Docset created."
         @docset_path
@@ -133,6 +136,11 @@ module DocToDash
     def load_classes_into_database
       log "Loading classes into database."
       insert_into_database @classes, 'cl'
+    end
+
+    def load_files_into_database
+      log "Loading files into database."
+      insert_into_database @files, 'Guide'
     end
 
     def insert_into_database(array, type)
