@@ -15,7 +15,7 @@ module DocToDash
       classes_html = Nokogiri::HTML(classes_file)
       classes      = []
 
-      classes_html.xpath('//li').children.select{|c| c.name == "span"}.each do |method|
+      classes_html.css('span.object_link').each do |method|
         a     = method.children.first
         title = a.children.first.to_s.gsub('#', '')
         href  = a["href"].to_s
@@ -31,7 +31,7 @@ module DocToDash
       methods_html = Nokogiri::HTML(methods_file)
       methods      = []
 
-      methods_html.xpath('//li').children.select{|c| c.name == "span"}.each do |method|
+      methods_html.css('span.object_link').each do |method|
         a     = method.children.first
         href  = a["href"].to_s
         name  = a["title"].to_s.gsub(/\((.+)\)/, '').strip! # Strip the (ClassName) and whitespace.
